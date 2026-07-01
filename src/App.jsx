@@ -16,6 +16,7 @@ function App() {
     alternatives: []
   });
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const isNormal = systemStatus.status === 'normal';
 
   const renderContent = () => {
