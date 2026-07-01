@@ -10,7 +10,7 @@ import {
   Bell
 } from 'lucide-react';
 
-export default function Layout({ children, headerActions }) {
+export default function Layout({ children, headerActions, activeTab, setActiveTab }) {
   return (
     <div className="app-container">
       {/* Sidebar */}
@@ -20,22 +20,22 @@ export default function Layout({ children, headerActions }) {
           <span>CityAI.Ops</span>
         </div>
         <nav className="sidebar-nav">
-          <a href="#" className="nav-item active">
+          <div onClick={() => setActiveTab('dashboard')} className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`}>
             <LayoutDashboard size={20} />
             時序監測儀表板
-          </a>
-          <a href="#" className="nav-item">
+          </div>
+          <div onClick={() => setActiveTab('incident')} className={`nav-item ${activeTab === 'incident' ? 'active' : ''}`}>
             <AlertTriangle size={20} />
             事件注入管理
-          </a>
-          <a href="#" className="nav-item">
+          </div>
+          <div onClick={() => setActiveTab('consulting')} className={`nav-item ${activeTab === 'consulting' ? 'active' : ''}`}>
             <MessageSquareWarning size={20} />
             策略諮詢顧問
-          </a>
-          <a href="#" className="nav-item">
+          </div>
+          <div onClick={() => setActiveTab('settings')} className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}>
             <Settings size={20} />
             系統設定
-          </a>
+          </div>
         </nav>
       </aside>
 
