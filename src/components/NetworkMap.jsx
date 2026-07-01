@@ -1,12 +1,4 @@
 import React, { useState } from 'react';
-import roadData from '../data/road_network_geometry.json';
-
-// 給定每條路的假想座標 (x, y) 範圍 0~100
-const layoutCoordinates = {
-  "RD_TPE_015": { x: 10, y: 30 }, // 復興南路一段
-  "RD_TPE_004": { x: 50, y: 15 }, // 市民大道四段
-  "RD_TPE_001": { x: 50, y: 40 }, // 忠孝東路四段
-  "RD_TPE_005": { x: 50, y: 65 }, // 仁愛路四段
 import roadNetworkData from '../data/road_network_geometry.json';
 import { MapContainer, TileLayer, Polyline, Tooltip, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
