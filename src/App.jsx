@@ -1,0 +1,120 @@
+import React, { useState } from 'react';
+import Layout from './components/Layout';
+import TrafficChart from './components/TrafficChart';
+import ChatAssistant from './components/ChatAssistant';
+import DecisionPanel from './components/DecisionPanel';
+import IncidentManager from './components/IncidentManager';
+import NotificationModal from './components/NotificationModal';
+import { Users, Car, AlertTriangle, ShieldCheck } from 'lucide-react';
+import './App.css';
+
+function App() {
+  const [systemStatus, setSystemStatus] = useState('normal'); // 'normal' | 'alert'
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <Layout 
+      headerActions={
+        <IncidentManager 
+          systemStatus={systemStatus} 
+          setSystemStatus={setSystemStatus} 
+          onShowNotification={() => setIsModalOpen(true)}
+        />
+      }
+    >
+      <div className="dashboard-grid">
+        {/* Top Stat Cards */}
+        <div className="col-span-3 glass-panel stat-card">
+          <div className="stat-icon">
+            <Car size={24} />
+          </div>
+          <div className="stat-info">
+            <h3>信義區總車流</h3>
+            <div className="value">4,205 <span style={{fontSize:'1rem', color:'#10b981'}}>↑ 12%</span></div>
+          </div>
+        </div>
+        
+        <div className="col-span-3 glass-panel stat-card">
+          <div className="stat-icon" style={{ color: '#3b82f6' }}>
+            <Users size={24} />
+          </div>
+          <div className="stat-info">
+            <h3>大巨蛋周邊人潮</h3>
+            <div className="value">18,520 <span style={{fontSize:'1rem', color:'#f59e0b'}}>↑ 34%</span></div>
+          </div>
+        </div>
+
+        <div className="col-span-3 glass-panel stat-card">
+          <div className="stat-icon" style={{ color: '#8b5cf6' }}>
+            <ShieldCheck size={24} />
+          </div>
+          <div className="stat-info">
+            <h3>AI 判定級別</h3>
+            <div className="value">SOP 監控中</div>
+          </div>
+        </div>
+
+        <div className="col-span-3 glass-panel stat-card" style={{ borderColor: systemStatus === 'normal' ? 'var(--panel-border)' : 'rgba(239, 68, 68, 0.5)' }}>
+          <div className="stat-icon" style={{ color: systemStatus === 'normal' ? '#10b981' : '#ef4444' }}>
+            <AlertTriangle size={24} />
+          </div>
+          <div className="stat-info">
+            <h3>突發事件警報</h3>
+            <div className="value" style={{ color: systemStatus === 'normal' ? '#10b981' : '#ef4444' }}>
+              {systemStatus === 'normal' ? '無異常' : '偵測到異常'}
+            </div>
+          </div>
+        </div>
+
+        {/* Chart Section */}
+        <div className="col-span-8 glass-panel">
+          <div className="panel-header">
+            <h2 className="panel-title">動態時序車人流監測 (Live Time-Series)</h2>
+            <div className="status-badge">
+              <span className="status-dot"></span>
+              Live
+            </div>
+          </div>
+          <div className="panel-content">
+            <TrafficChart />
+          </div>
+        </div>
+
+        {/* AI Decision Panel */}
+        <div className="col-span-4 glass-panel">
+          <div className="panel-header">
+            <h2 className="panel-title">AI 推理與決策分析</h2>
+          </div>
+          <div className="panel-content" style={{ height: '300px', overflowY: 'auto' }}>
+            <DecisionPanel eventActive={systemStatus === 'alert'} />
+          </div>
+        </div>
+
+        {/* Map Placeholder */}
+        <div className="col-span-8 glass-panel">
+          <div className="panel-header">
+            <h2 className="panel-title">智慧路網與疏散路徑</h2>
+          </div>
+          <div className="panel-content" style={{ height: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'var(--text-secondary)' }}>
+            <div style={{ width: '100%', height: '100%', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed rgba(255,255,255,0.1)' }}>
+              (地圖模組準備中)
+            </div>
+          </div>
+        </div>
+
+        {/* Chat Assistant */}
+        <div className="col-span-4 glass-panel" style={{ display: 'flex', flexDirection: 'column' }}>
+          <div className="panel-header">
+            <h2 className="panel-title">互動式策略諮詢</h2>
+          </div>
+          <ChatAssistant />
+        </div>
+
+      </div>
+
+      <NotificationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </Layout>
+  );
+}
+
+export default App;
