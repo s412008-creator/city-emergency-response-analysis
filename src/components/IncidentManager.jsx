@@ -1,18 +1,31 @@
 import React from 'react';
 import { AlertCircle, Zap, Send } from 'lucide-react';
+import incidentData from '../data/live_incidents.json';
+import roadData from '../data/road_network_geometry.json';
 
 export default function IncidentManager({ systemStatus, setSystemStatus, onShowNotification }) {
   const injectEvent = () => {
-    setSystemStatus('alert');
+    // 取得第一個事件
+    const incident = incidentData[0];
+    // 找出受影響路段的替代道路
+    const affectedRoadInfo = roadData.find(r => r.segment_id === incident.affected_segment);
+    
+    setSystemStatus({
+      status: 'alert',
+      incident: incident,
+      alternatives: affectedRoadInfo ? affectedRoadInfo.alternatives : []
+    });
   };
 
   const resetEvent = () => {
-    setSystemStatus('normal');
+    setSystemStatus({ status: 'normal', incident: null, alternatives: [] });
   };
+
+  const isAlert = systemStatus.status === 'alert';
 
   return (
     <div style={{ display: 'flex', gap: '0.75rem' }}>
-      {systemStatus === 'normal' ? (
+      {!isAlert ? (
         <button 
           onClick={injectEvent}
           style={{ 
@@ -24,7 +37,7 @@ export default function IncidentManager({ systemStatus, setSystemStatus, onShowN
           }}
         >
           <Zap size={16} />
-          注入突發事件 (路面塌陷)
+          注入即時突發事件
         </button>
       ) : (
         <>

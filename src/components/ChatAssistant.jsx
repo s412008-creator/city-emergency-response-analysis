@@ -15,12 +15,21 @@ export default function ChatAssistant() {
     setMessages(newMessages);
     setInput('');
 
-    // Mock bot response
+    // Mock bot response based on keywords
     setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'bot', 
-        content: `根據 SOP 規定，若發生「${input}」的狀況，建議立即啟動 B 級應變機制，並增加周邊號誌綠燈秒數 20%。` 
-      }]);
+      let reply = `根據分析，對於「${input}」的情境，建議啟動標準巡檢程序，確保周邊交通順暢。`;
+      
+      if (input.includes('塌陷') || input.includes('車禍') || input.includes('事故')) {
+        reply = '依據【SOP 第 2 條：車禍與路障應變】：若發生嚴重路段阻斷，應立即篩選主疏散替代道路，引導車流，並更新 CMS 告示「前方事故封閉，請改道，預計延誤 X 分鐘」。';
+      } else if (input.includes('大巨蛋') || input.includes('人潮') || input.includes('散場') || input.includes('BL17')) {
+        reply = '依據【SOP 第 4 條與第 3 條】：偵測到大巨蛋人潮峰值異常，系統將自動啟動散場模式。建議北捷「過站不停」、通知公車處調度接駁專車、並引導群眾步行至市政府站。';
+      } else if (input.includes('號誌') || input.includes('故障') || input.includes('停電')) {
+        reply = '依據【SOP 第 5 條：號誌故障應變】：請立即產出人工指揮派遣建議，每個受影響路口配置 2 名警力，並於 CMS 顯示「號誌故障，請依現場指揮通行」。';
+      } else if (input.includes('多國') || input.includes('語言') || input.includes('外籍')) {
+        reply = '依據【SOP 第 6 條：數位通報與多語化】：當該區域漫遊用戶 (Roaming_User_Pct) >= 30% 時，推播之簡訊與看板訊息將自動產出多國語言版本。';
+      }
+
+      setMessages(prev => [...prev, { role: 'bot', content: reply }]);
     }, 1000);
   };
 

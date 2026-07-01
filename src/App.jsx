@@ -5,12 +5,19 @@ import ChatAssistant from './components/ChatAssistant';
 import DecisionPanel from './components/DecisionPanel';
 import IncidentManager from './components/IncidentManager';
 import NotificationModal from './components/NotificationModal';
+import NetworkMap from './components/NetworkMap';
 import { Users, Car, AlertTriangle, ShieldCheck } from 'lucide-react';
 import './App.css';
 
 function App() {
-  const [systemStatus, setSystemStatus] = useState('normal'); // 'normal' | 'alert'
+  const [systemStatus, setSystemStatus] = useState({
+    status: 'normal',
+    incident: null,
+    alternatives: []
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const isNormal = systemStatus.status === 'normal';
 
   return (
     <Layout 
@@ -54,14 +61,14 @@ function App() {
           </div>
         </div>
 
-        <div className="col-span-3 glass-panel stat-card" style={{ borderColor: systemStatus === 'normal' ? 'var(--panel-border)' : 'rgba(239, 68, 68, 0.5)' }}>
-          <div className="stat-icon" style={{ color: systemStatus === 'normal' ? '#10b981' : '#ef4444' }}>
+        <div className="col-span-3 glass-panel stat-card" style={{ borderColor: isNormal ? 'var(--panel-border)' : 'rgba(239, 68, 68, 0.5)' }}>
+          <div className="stat-icon" style={{ color: isNormal ? '#10b981' : '#ef4444' }}>
             <AlertTriangle size={24} />
           </div>
           <div className="stat-info">
             <h3>突發事件警報</h3>
-            <div className="value" style={{ color: systemStatus === 'normal' ? '#10b981' : '#ef4444' }}>
-              {systemStatus === 'normal' ? '無異常' : '偵測到異常'}
+            <div className="value" style={{ color: isNormal ? '#10b981' : '#ef4444' }}>
+              {isNormal ? '無異常' : '偵測到異常'}
             </div>
           </div>
         </div>
@@ -86,7 +93,7 @@ function App() {
             <h2 className="panel-title">AI 推理與決策分析</h2>
           </div>
           <div className="panel-content" style={{ height: '300px', overflowY: 'auto' }}>
-            <DecisionPanel eventActive={systemStatus === 'alert'} />
+            <DecisionPanel systemStatus={systemStatus} />
           </div>
         </div>
 
@@ -95,10 +102,8 @@ function App() {
           <div className="panel-header">
             <h2 className="panel-title">智慧路網與疏散路徑</h2>
           </div>
-          <div className="panel-content" style={{ height: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', color: 'var(--text-secondary)' }}>
-            <div style={{ width: '100%', height: '100%', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px dashed rgba(255,255,255,0.1)' }}>
-              (地圖模組準備中)
-            </div>
+          <div className="panel-content" style={{ height: '350px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <NetworkMap systemStatus={systemStatus} />
           </div>
         </div>
 
