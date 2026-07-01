@@ -7,130 +7,140 @@ const layoutCoordinates = {
   "RD_TPE_004": { x: 50, y: 15 }, // 市民大道四段
   "RD_TPE_001": { x: 50, y: 40 }, // 忠孝東路四段
   "RD_TPE_005": { x: 50, y: 65 }, // 仁愛路四段
-  "RD_TPE_013": { x: 50, y: 90 }, // 信義路五段
-  
-  "RD_TPE_006": { x: 30, y: 40 }, // 敦化南路一段
-  "RD_TPE_012": { x: 30, y: 75 }, // 敦化南路二段
-  "RD_TPE_008": { x: 45, y: 52 }, // 延吉街
-  "RD_TPE_002": { x: 60, y: 40 }, // 光復南路
-  "RD_TPE_003": { x: 75, y: 55 }, // 基隆路一段
-  "RD_TPE_009": { x: 75, y: 25 }, // 基隆路地下道
-  
-  "RD_TPE_010": { x: 85, y: 55 }, // 市府路
-  "RD_TPE_014": { x: 95, y: 55 }, // 松智路
-  "RD_TPE_007": { x: 90, y: 40 }, // 松高路
-  "RD_TPE_011": { x: 90, y: 70 }, // 松壽路
+import roadNetworkData from '../data/road_network_geometry.json';
+import { MapContainer, TileLayer, Polyline, Tooltip, CircleMarker } from 'react-leaflet';
+import L from 'leaflet';
+
+// 台北市信義區各主要路段的真實經緯度近似陣列 (Lat, Lng)
+const ROAD_COORDINATES = {
+  "RD_TPE_001": [[25.0415, 121.5435], [25.0413, 121.5513], [25.0410, 121.5645]], // 忠孝東路四段
+  "RD_TPE_002": [[25.0440, 121.5562], [25.0410, 121.5560], [25.0375, 121.5558]], // 光復南路
+  "RD_TPE_003": [[25.0425, 121.5646], [25.0385, 121.5645], [25.0335, 121.5642]], // 基隆路一段
+  "RD_TPE_004": [[25.0445, 121.5438], [25.0445, 121.5515], [25.0443, 121.5560]], // 市民大道四段
+  "RD_TPE_005": [[25.0375, 121.5430], [25.0375, 121.5558], [25.0373, 121.5615]], // 仁愛路四段
+  "RD_TPE_006": [[25.0445, 121.5492], [25.0415, 121.5492], [25.0375, 121.5492]], // 敦化南路一段
+  "RD_TPE_007": [[25.0392, 121.5645], [25.0390, 121.5680]], // 松高路
+  "RD_TPE_008": [[25.0413, 121.5535], [25.0375, 121.5535]], // 延吉街
+  "RD_TPE_009": [[25.0410, 121.5645], [25.0450, 121.5650]], // 基隆路地下道
+  "RD_TPE_010": [[25.0373, 121.5615], [25.0350, 121.5615]], // 市府路
+  "RD_TPE_011": [[25.0355, 121.5642], [25.0355, 121.5680]], // 松壽路
+  "RD_TPE_012": [[25.0375, 121.5492], [25.0330, 121.5490]], // 敦化南路二段
+  "RD_TPE_013": [[25.0330, 121.5642], [25.0330, 121.5680]], // 信義路五段
+  "RD_TPE_014": [[25.0390, 121.5660], [25.0355, 121.5660], [25.0330, 121.5660]], // 松智路
+  "RD_TPE_015": [[25.0445, 121.5438], [25.0415, 121.5435]]  // 復興南路一段
 };
 
 export default function NetworkMap({ systemStatus }) {
   const [hoveredRoad, setHoveredRoad] = useState(null);
   const isAlert = systemStatus.status === 'alert';
-  
-  // 動態取得事件影響路段與替代道路
-  const incidentRoad = systemStatus.incident ? systemStatus.incident.affected_segment : null;
-  const alternativeRoads = systemStatus.alternatives || [];
+  const incidentRoad = systemStatus.incident?.location_id;
+  const alternativeRoads = systemStatus.alternatives?.map(a => a.route_id) || [];
+
+  // 地圖中心點 (大巨蛋周邊)
+  const mapCenter = [25.0395, 121.5560];
 
   return (
-    <div style={{ width: '100%', height: '100%', position: 'relative', borderRadius: '4px' }}>
-      <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
-        
-        {/* Draw background grid */}
-        <g stroke="rgba(255,255,255,0.02)" strokeWidth="0.5">
-          <line x1="0" y1="20" x2="100" y2="20" />
-          <line x1="0" y1="40" x2="100" y2="40" />
-          <line x1="0" y1="60" x2="100" y2="60" />
-          <line x1="0" y1="80" x2="100" y2="80" />
-          <line x1="20" y1="0" x2="20" y2="100" />
-          <line x1="40" y1="0" x2="40" y2="100" />
-          <line x1="60" y1="0" x2="60" y2="100" />
-          <line x1="80" y1="0" x2="80" y2="100" />
-        </g>
+    <div style={{ width: '100%', height: '100%', minHeight: '350px', position: 'relative', borderRadius: '4px', overflow: 'hidden' }}>
+      <MapContainer 
+        center={mapCenter} 
+        zoom={15} 
+        style={{ width: '100%', height: '100%' }}
+        zoomControl={false}
+      >
+        {/* 使用 CartoDB Dark Matter 深色極簡圖磚，融入戰情室黑灰風格 */}
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        />
 
-        {/* Draw nodes */}
-        {roadData.map(road => {
-          const coord = layoutCoordinates[road.segment_id];
-          if (!coord) return null;
+        {roadNetworkData.map((road) => {
+          const coords = ROAD_COORDINATES[road.segment_id];
+          if (!coords) return null; // 若沒有給定經緯度則跳過
 
-          let color = "#334155"; // 深藍灰 Slate 700 替代原本的灰色
-          let r = 2;
-          
+          let color = "#3b82f6"; // 預設企業藍
+          let weight = 4;
+          let dashArray = null;
+
           if (isAlert) {
             if (road.segment_id === incidentRoad) {
-              color = "#dc2626"; // dark red for incident
-              r = 4;
+              color = "#ef4444"; // 事故點：紅色
+              weight = 6;
             } else if (alternativeRoads.includes(road.segment_id)) {
-              color = "#059669"; // 深翡翠綠 Emerald 600
-              r = 3;
+              color = "#10b981"; // 替代道路：翡翠綠
+              weight = 5;
             } else {
-              color = "#1e293b"; // dim others (Slate 800)
+              color = "#334155"; // 其他道路：暗藍灰 (Slate 700)
+              weight = 3;
             }
           }
-          
-          const isHovered = hoveredRoad === road.segment_id;
 
+          const isHovered = hoveredRoad === road.segment_id;
+          
           return (
-            <g 
-              key={road.segment_id} 
-              onMouseEnter={() => setHoveredRoad(road.segment_id)}
-              onMouseLeave={() => setHoveredRoad(null)}
-              style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
-            >
-              {/* If it's an incident, draw a pulsing circle */}
+            <React.Fragment key={road.segment_id}>
+              {/* 若為事故路段，添加底部的脈衝光環 (用半透明的粗線條模擬) */}
               {isAlert && road.segment_id === incidentRoad && (
-                <circle cx={coord.x} cy={coord.y} r={isHovered ? 10 : 8} fill="rgba(220, 38, 38, 0.2)">
-                  <animate attributeName="r" values={isHovered ? "6;14;6" : "4;12;4"} dur="2s" repeatCount="indefinite" />
-                </circle>
-              )}
-              
-              <circle cx={coord.x} cy={coord.y} r={isHovered ? r + 1.5 : r} fill={isHovered ? '#fff' : color} />
-              
-              {/* Background rect for hover tooltip to improve readability */}
-              {isHovered && (
-                <rect 
-                  x={coord.x - 15} 
-                  y={coord.y - 12} 
-                  width={30} 
-                  height={7} 
-                  fill="var(--bg-color)" 
-                  stroke="var(--panel-border)"
-                  strokeWidth="0.5"
-                  rx="1"
+                <Polyline 
+                  positions={coords} 
+                  pathOptions={{ color: '#ef4444', weight: 15, opacity: 0.2 }} 
                 />
               )}
               
-              <text 
-                x={coord.x} 
-                y={coord.y - 4} 
-                fontSize={isHovered ? "4" : "3.5"} 
-                fontWeight={isHovered ? "bold" : "normal"}
-                fill={
-                  isAlert && road.segment_id === incidentRoad 
-                    ? "#ef4444" 
-                    : (isAlert && alternativeRoads.includes(road.segment_id) ? "#10b981" : "#94a3b8")
-                } 
-                textAnchor="middle"
+              <Polyline 
+                positions={coords} 
+                pathOptions={{ 
+                  color: isHovered ? '#fff' : color, 
+                  weight: isHovered ? weight + 3 : weight,
+                  dashArray: dashArray,
+                  lineCap: 'round',
+                  lineJoin: 'round'
+                }}
+                eventHandlers={{
+                  mouseover: () => setHoveredRoad(road.segment_id),
+                  mouseout: () => setHoveredRoad(null),
+                }}
               >
-                {road.name}
-              </text>
-              
-              {/* Extra tooltip text on hover */}
+                {/* 套用自訂的毛玻璃 Glassmorphism Tooltip */}
+                <Tooltip sticky className="glass-tooltip">
+                  <div style={{ fontWeight: '600', marginBottom: '2px', color: 
+                    (isAlert && road.segment_id === incidentRoad) ? '#ef4444' : 
+                    (isAlert && alternativeRoads.includes(road.segment_id)) ? '#10b981' : '#fff'
+                  }}>
+                    {road.name}
+                  </div>
+                  <div>容量: {road.capacity_vph} 輛/小時</div>
+                  {isAlert && road.segment_id === incidentRoad && (
+                    <div style={{ color: '#fca5a5', fontSize: '11px', marginTop: '2px' }}>⚠️ 事故封閉中</div>
+                  )}
+                  {isAlert && alternativeRoads.includes(road.segment_id) && (
+                    <div style={{ color: '#6ee7b7', fontSize: '11px', marginTop: '2px' }}>✅ 系統推薦替代路線</div>
+                  )}
+                </Tooltip>
+              </Polyline>
+
+              {/* 為了讓視覺上路口連線更好看，在端點加上小圓點 */}
               {isHovered && (
-                <text x={coord.x} y={coord.y - 7} fontSize="2.5" fill="var(--text-secondary)" textAnchor="middle">
-                  {isAlert && road.segment_id === incidentRoad ? '事故封閉中' : 
-                   isAlert && alternativeRoads.includes(road.segment_id) ? '系統推薦路線' : 
-                   `容量: ${road.capacity} 輛`}
-                </text>
+                <>
+                  <CircleMarker center={coords[0]} radius={4} pathOptions={{ color: '#fff', fillOpacity: 1 }} />
+                  <CircleMarker center={coords[coords.length-1]} radius={4} pathOptions={{ color: '#fff', fillOpacity: 1 }} />
+                </>
               )}
-            </g>
+            </React.Fragment>
           );
         })}
-      </svg>
+      </MapContainer>
 
       {/* Map Legend */}
-      <div style={{ position: 'absolute', bottom: 10, left: 10, fontSize: '0.7rem', display: 'flex', gap: '10px', background: 'var(--panel-bg)', border: '1px solid var(--panel-border)', padding: '5px 10px', borderRadius: '4px', color: 'var(--text-secondary)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px'}}><div style={{ width: 8, height: 8, borderRadius: '50%', background: '#334155'}}></div> 正常路段</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px'}}><div style={{ width: 8, height: 8, borderRadius: '50%', background: '#dc2626'}}></div> 事故塌陷</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '5px'}}><div style={{ width: 8, height: 8, borderRadius: '50%', background: '#059669'}}></div> 系統推薦替代路段</div>
+      <div style={{ 
+        position: 'absolute', bottom: 10, left: 10, zIndex: 1000, 
+        fontSize: '0.75rem', display: 'flex', gap: '12px', 
+        background: 'rgba(17, 17, 19, 0.8)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255, 255, 255, 0.1)', padding: '6px 12px', borderRadius: '6px', 
+        color: 'var(--text-secondary)', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' 
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px'}}><div style={{ width: 12, height: 4, borderRadius: '2px', background: '#3b82f6'}}></div> 正常車流</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px'}}><div style={{ width: 12, height: 4, borderRadius: '2px', background: '#ef4444'}}></div> 事故封閉</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px'}}><div style={{ width: 12, height: 4, borderRadius: '2px', background: '#10b981'}}></div> 推薦替代路線</div>
       </div>
     </div>
   );

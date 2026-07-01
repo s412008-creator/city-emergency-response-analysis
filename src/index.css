@@ -1,3 +1,5 @@
+@import "leaflet/dist/leaflet.css";
+
 :root {
   --bg-color: #030305; /* 更深邃的黑 */
   --panel-bg: rgba(17, 17, 19, 0.6); /* 半透明玻璃底 */
