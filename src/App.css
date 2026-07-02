@@ -355,4 +355,21 @@
   .panel-content {
     padding: 0 1rem 1rem;
   }
+
+  .chat-fab {
+    bottom: 5.5rem; /* 避免被底部 nav 擋住 */
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+  }
+
+  .chat-widget {
+    bottom: 6rem;
+    right: 1rem;
+    left: 1rem;
+    width: auto; /* 寬度自動適應螢幕 */
+    height: 60vh; /* 高度以 viewport 比例為主 */
+    min-height: 400px;
+    max-height: calc(100vh - 8rem);
+  }
 }
