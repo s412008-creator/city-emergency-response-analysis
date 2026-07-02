@@ -43,6 +43,7 @@ body {
 }
 
 html {
+  font-size: 16px; /* 基礎比例設定 */
   width: 100%;
   height: 100%;
   position: fixed;
@@ -50,6 +51,18 @@ html {
   left: 0;
   overflow: hidden;
   overscroll-behavior: none;
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px; /* 手機版將整體 rem 比例等比縮小 */
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px; /* 小螢幕手機進一步縮小 */
+  }
 }
 
 /* 現代網站流動極光特效 (Aurora Glow) */
