@@ -13,9 +13,9 @@ export default function ChatAssistant() {
   const [isLoading, setIsLoading] = useState(false);
   const chatEndRef = useRef(null);
   
-  // 自動置底
+  // 自動置底 (加入 block: nearest 避免連帶捲動整個網頁)
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [messages]);
 
   // 主動預警機制：掛載後 3.5 秒自動推送一則分析預警
