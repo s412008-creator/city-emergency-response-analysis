@@ -7,13 +7,23 @@ export default function IncidentManager({ systemStatus, setSystemStatus, onShowN
   const injectEvent = () => {
     // 取得第一個事件
     const incident = incidentData[0];
+    
     // 找出受影響路段的替代道路
     const affectedRoadInfo = roadData.find(r => r.segment_id === incident.affected_segment);
+    
+    // 智慧過濾：只挑選承載容量 (capacity_vph) 大於 1200 的路段作為推薦替代道路
+    let smartAlternatives = [];
+    if (affectedRoadInfo && affectedRoadInfo.alternatives) {
+      smartAlternatives = affectedRoadInfo.alternatives.filter(altId => {
+        const altRoad = roadData.find(r => r.segment_id === altId);
+        return altRoad && altRoad.capacity_vph >= 1200;
+      });
+    }
     
     setSystemStatus({
       status: 'alert',
       incident: incident,
-      alternatives: affectedRoadInfo ? affectedRoadInfo.alternatives : []
+      alternatives: smartAlternatives
     });
   };
 

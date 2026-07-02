@@ -1,4 +1,4 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { useState, Suspense, lazy, useEffect } from 'react';
 import Layout from './components/Layout';
 import IncidentManager from './components/IncidentManager';
 import NotificationModal from './components/NotificationModal';
@@ -24,6 +24,14 @@ function App() {
   const isNormal = systemStatus.status === 'normal';
 
   const cityData = useCityData();
+
+  // 主動預警機制：進入系統後 3 秒，自動彈出 AI 聊天室
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsChatOpen(true);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {

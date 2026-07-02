@@ -59,6 +59,11 @@ export default function NotificationModal({ isOpen, onClose, systemStatus }) {
               <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', display: 'block' }}>[日本語]</span>
               <p style={{ fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--text-primary)' }}>【交通情報】{location}で事故が発生し、通行止めです。迂回してください。約{ete}分の遅れが見込まれます。</p>
             </div>
+            {/* Korean */}
+            <div style={{ background: 'var(--bg-color)', border: '1px solid var(--panel-border)', padding: '1rem', borderRadius: '4px' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.5rem', display: 'block' }}>[한국어]</span>
+              <p style={{ fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--text-primary)' }}>【교통 알림】 {location}에서 사고가 발생하여 도로가 통제되었습니다. 우회해주시기 바랍니다. 약 {ete}분 지연이 예상됩니다.</p>
+            </div>
           </div>
         </div>
 

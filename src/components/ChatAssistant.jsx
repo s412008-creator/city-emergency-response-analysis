@@ -18,7 +18,21 @@ export default function ChatAssistant() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-
+  // 主動預警機制：掛載後 3.5 秒自動推送一則分析預警
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessages(prev => {
+        // 如果使用者已經開始聊天，就不主動插話
+        if (prev.length > 1) return prev;
+        
+        return [...prev, { 
+          role: 'model', 
+          content: '⚠️ [主動預警] 指揮官您好，我觀測到大巨蛋周邊人流已達峰值 (18,520 人)，且信義區總車流出現攀升趨勢。依據 SOP，建議提早佈署接駁專車，並準備啟動周邊號誌連鎖控制。'
+        }];
+      });
+    }, 3500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSend = async () => {
     if (!input.trim() || !apiKey) return;
