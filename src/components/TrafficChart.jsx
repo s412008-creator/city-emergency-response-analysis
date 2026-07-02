@@ -80,9 +80,10 @@ export default function TrafficChart() {
           
           <Brush 
             dataKey="time" 
-            height={20} 
-            stroke="#71717a" 
-            fill="var(--panel-bg)"
+            height={30} 
+            stroke="var(--text-secondary)" 
+            fill="rgba(0,0,0,0.3)"
+            travellerWidth={24}
             tickFormatter={() => ''}
             style={{ cursor: 'ew-resize' }}
           />
