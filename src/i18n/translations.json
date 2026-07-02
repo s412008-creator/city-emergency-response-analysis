@@ -111,7 +111,9 @@
     "chat_fallback_sop": "SOP 的啟動條件分為三級：\n1. A級 (Critical)：發生路面塌陷等重大事故，需封閉主幹道。\n2. B級 (High)：大巨蛋周邊人流超過 18,000 人且發生推擠。\n3. C級 (Medium)：部分號誌異常或車速低於 15km/h。\n系統會根據這些條件，自動匹配並引用對應的 SOP 處置條款。",
     "chat_fallback_jury": "各位評審委員好！我是 2026 雲湧智生黑客松的 CityAI 決策核心。我具備了動態 SOP 匹配、智慧容量過濾與多語系通報能力。感謝您的指導，準備好見證未來城市應變系統了嗎？",
     "chat_fallback_greeting": "指揮官您好！我是 CityAI 交通應變顧問（目前處於高安全性備援模式），隨時為您分析即時路況與大會 SOP。您可以試著問我關於「大巨蛋散場」或是「光復南路」的情境！",
-    "chat_fallback_weather": "目前的系統未介接氣象署 API，但我能為您分析極端氣候（如暴雨）對信義區路網承載量的影響，是否需要載入防汛 SOP？"
+    "chat_fallback_weather": "目前的系統未介接氣象署 API，但我能為您分析極端氣候（如暴雨）對信義區路網承載量的影響，是否需要載入防汛 SOP？",
+    "cell_broadcast_title": "【國家級警報】災防告警訊息",
+    "cell_broadcast_msg": "[動態重路由啟動] 系統偵測到主要幹道嚴重壅塞或阻斷。為避免二次事故，CityAI 已計算替代路徑，請即刻改道至周邊綠色標示路線。"
   },
   "en": {
     "app_title": "Command Center Ops",
@@ -225,7 +227,9 @@
     "chat_fallback_sop": "SOP triggers have 3 levels:\n1. Class A (Critical): Major road collapse, requires main road closure.\n2. Class B (High): Dome crowd > 18k with pushing.\n3. Class C (Medium): Signal issues or speed < 15km/h.\nSystem auto-matches these conditions to execute SOPs.",
     "chat_fallback_jury": "Hello Honorable Judges! I am the CityAI core for the 2026 Hackathon. I feature dynamic SOP matching, smart capacity filtering, and multi-lingual broadcasting. Thank you for your guidance. Ready to witness the future of city emergency response?",
     "chat_fallback_greeting": "Hello Commander! I'm CityAI Traffic Consultant (Fallback Mode), ready to analyze real-time traffic and SOPs. Try asking me about 'Dome Exit' or 'Guangfu S. Rd'!",
-    "chat_fallback_weather": "Current system lacks Weather API, but I can analyze extreme weather impacts on Xinyi's network capacity. Shall I load the flood prevention SOP?"
+    "chat_fallback_weather": "Current system lacks Weather API, but I can analyze extreme weather impacts on Xinyi's network capacity. Shall I load the flood prevention SOP?",
+    "cell_broadcast_title": "[Presidential Alert] Emergency Message",
+    "cell_broadcast_msg": "[Dynamic Rerouting Active] Major road blockage detected. CityAI has calculated alternative routes. Please follow the green paths."
   },
   "ja": {
     "app_title": "交通管制センター",
@@ -339,7 +343,9 @@
     "chat_fallback_sop": "SOPのトリガーは3段階です：\n1. A級（Critical）：道路陥没などの重大事故。幹線道路の封鎖が必要。\n2. B級（High）：ドームの人出が1.8万人を超え、押し合いが発生。\n3. C級（Medium）：信号異常または時速15km未満。\nシステムはこれらの条件を自動的に照合し、SOPを実行します。",
     "chat_fallback_jury": "審査員の皆様、こんにちは！私は2026年ハッカソンのCityAIコアです。動的SOP照合、スマート容量フィルタリング、多言語放送機能を備えています。ご指導ありがとうございます。未来の都市対応システムを見る準備はできましたか？",
     "chat_fallback_greeting": "司令官、こんにちは！私はCityAI交通コンサルタント（フォールバックモード）です。リアルタイムの交通状況とSOPを分析します。「ドーム退場」や「光復南路」について質問してみてください！",
-    "chat_fallback_weather": "現在気象庁APIとは接続していませんが、異常気象が信義区の交通網容量に与える影響を分析できます。水害対策SOPをロードしますか？"
+    "chat_fallback_weather": "現在気象庁APIとは接続していませんが、異常気象が信義区の交通網容量に与える影響を分析できます。水害対策SOPをロードしますか？",
+    "cell_broadcast_title": "【緊急速報】エリアメール",
+    "cell_broadcast_msg": "[動的リルート開始] 主要道路の深刻な渋滞/封鎖を検知。CityAIが代替ルートを計算しました。緑色のルートへ迂回してください。"
   },
   "ko": {
     "app_title": "교통 관제 센터",
@@ -453,6 +459,8 @@
     "chat_fallback_sop": "SOP 발동 조건은 3단계입니다:\n1. A급(Critical): 도로 함몰 등 중대 사고. 주요 도로 통제 필요.\n2. B급(High): 돔 인파 1.8만 명 초과 및 밀림 발생.\n3. C급(Medium): 신호 이상 또는 시속 15km 미만.\n시스템은 이러한 조건을 자동으로 일치시켜 SOP를 실행합니다.",
     "chat_fallback_jury": "심사위원 여러분, 안녕하십니까! 저는 2026 해커톤의 CityAI 코어입니다. 동적 SOP 일치, 스마트 용량 필터링, 다국어 방송 기능을 갖추고 있습니다. 지도해 주셔서 감사합니다. 미래의 도시 대응 시스템을 볼 준비가 되셨습니까?",
     "chat_fallback_greeting": "지휘관님, 안녕하십니까! 저는 CityAI 교통 컨설턴트(대체 모드)입니다. 실시간 교통 상황 및 SOP를 분석할 준비가 되었습니다. '돔 퇴장'이나 '광푸남로'에 대해 질문해 보세요!",
-    "chat_fallback_weather": "현재 기상청 API와 연결되어 있지 않지만, 기상이변이 신이구 교통망 용량에 미치는 영향을 분석할 수 있습니다. 수해 방지 SOP를 로드할까요?"
+    "chat_fallback_weather": "현재 기상청 API와 연결되어 있지 않지만, 기상이변이 신이구 교통망 용량에 미치는 영향을 분석할 수 있습니다. 수해 방지 SOP를 로드할까요?",
+    "cell_broadcast_title": "[긴급재난문자] 안전 안내",
+    "cell_broadcast_msg": "[동적 경로 재설정] 주요 도로 심각한 정체/차단 감지. CityAI가 대체 경로를 계산했습니다. 녹색 경로로 우회해 주십시오."
   }
 }

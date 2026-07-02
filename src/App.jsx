@@ -6,6 +6,7 @@ import { useCityData } from './hooks/useCityData';
 import CctvPanel from './components/CctvPanel';
 import AiAlertLog from './components/AiAlertLog';
 import TransitStatus from './components/TransitStatus';
+import CellBroadcastSimulator from './components/CellBroadcastSimulator';
 
 // 動態載入大型元件 (Code-Splitting) 以大幅提升首屏載入速度
 const TrafficChart = lazy(() => import('./components/TrafficChart'));
@@ -46,6 +47,24 @@ function App() {
       setIsChatOpen(true);
     }
   }, [systemStatus.status]);
+
+  const triggerInteractiveIncident = (roadId) => {
+    // 找出幾條附近的替代道路 (用假資料模擬演算法結果)
+    const mockAlternatives = ['RD_003', 'RD_008', 'RD_012', 'RD_004', 'RD_005'];
+    setSystemStatus({
+      status: 'alert',
+      incident: {
+        type: 'road_block',
+        affected_segment: roadId,
+        severity: 'critical'
+      },
+      alternatives: mockAlternatives.filter(id => id !== roadId)
+    });
+    // 延遲打開對話框，增加戲劇性
+    setTimeout(() => {
+      setIsChatOpen(true);
+    }, 1500);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -138,7 +157,9 @@ function App() {
                 <h2 className="panel-title">{t('panel_network_map')}</h2>
               </div>
               <div className="panel-content" style={{ height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <NetworkMap systemStatus={systemStatus} />
+                <Suspense fallback={<div className="text-white opacity-50">載入地圖模組中...</div>}>
+                  <NetworkMap systemStatus={systemStatus} onRoadClick={triggerInteractiveIncident} />
+                </Suspense>
               </div>
             </div>
           </>
@@ -226,6 +247,12 @@ function App() {
 
       <NotificationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} systemStatus={systemStatus} />
       
+      {/* 細胞廣播模擬器 (WOW Factor) */}
+      <CellBroadcastSimulator 
+        systemStatus={systemStatus} 
+        onClose={() => setSystemStatus({...systemStatus, status: 'normal', incident: null, alternatives: []})} 
+      />
+
       {/* 浮動聊天機器人 Floating Chat Widget */}
       <div className="chat-fab" onClick={() => setIsChatOpen(!isChatOpen)}>
         {isChatOpen ? <X size={28} /> : <MessageCircle size={28} />}

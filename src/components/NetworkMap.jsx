@@ -95,12 +95,16 @@ export default function NetworkMap({ systemStatus }) {
                   weight: isHovered ? weight + 3 : weight,
                   dashArray: dashArray,
                   className: className,
-                  lineCap: 'round',
-                  lineJoin: 'round'
+                  opacity: 0.8
                 }}
                 eventHandlers={{
                   mouseover: () => setHoveredRoad(road.segment_id),
                   mouseout: () => setHoveredRoad(null),
+                  click: () => {
+                    if (onRoadClick) {
+                      onRoadClick(road.segment_id);
+                    }
+                  }
                 }}
               >
                 {/* 套用自訂的毛玻璃 Glassmorphism Tooltip */}
