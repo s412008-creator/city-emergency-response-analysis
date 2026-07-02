@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import roadNetworkData from '../data/road_network_geometry.json';
 import { MapContainer, TileLayer, Polyline, Tooltip, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
+import { useLanguage } from '../contexts/LanguageContext';
 
 // 台北市信義區各主要路段的真實經緯度近似陣列 (Lat, Lng)
 const ROAD_COORDINATES = {
@@ -23,6 +24,7 @@ const ROAD_COORDINATES = {
 };
 
 export default function NetworkMap({ systemStatus }) {
+  const { t } = useLanguage();
   const [hoveredRoad, setHoveredRoad] = useState(null);
   const isAlert = systemStatus.status === 'alert';
   const incidentRoad = systemStatus.incident?.affected_segment || systemStatus.incident?.affected_road;
@@ -107,12 +109,12 @@ export default function NetworkMap({ systemStatus }) {
                   }}>
                     {road.name}
                   </div>
-                  <div>容量: {road.capacity_vph} 輛/小時</div>
+                  <div>{t('map_capacity')}: {road.capacity_vph} {t('map_unit_vph')}</div>
                   {isAlert && road.segment_id === incidentRoad && (
-                    <div style={{ color: '#fca5a5', fontSize: '11px', marginTop: '2px' }}>⚠️ 事故封閉中</div>
+                    <div style={{ color: '#fca5a5', fontSize: '11px', marginTop: '2px' }}>{t('map_alert_incident')}</div>
                   )}
                   {isAlert && alternativeRoads.includes(road.segment_id) && (
-                    <div style={{ color: '#6ee7b7', fontSize: '11px', marginTop: '2px' }}>✅ 系統推薦替代路線</div>
+                    <div style={{ color: '#6ee7b7', fontSize: '11px', marginTop: '2px' }}>{t('map_alert_alternative')}</div>
                   )}
                 </Tooltip>
               </Polyline>
@@ -134,12 +136,20 @@ export default function NetworkMap({ systemStatus }) {
         position: 'absolute', bottom: 10, left: 10, zIndex: 1000, 
         fontSize: '0.75rem', display: 'flex', gap: '12px', 
         background: 'rgba(17, 17, 19, 0.8)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-        border: '1px solid rgba(255, 255, 255, 0.1)', padding: '6px 12px', borderRadius: '6px', 
-        color: 'var(--text-secondary)', boxShadow: '0 4px 15px rgba(0,0,0,0.3)' 
+        padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px'}}><div style={{ width: 12, height: 4, borderRadius: '2px', background: '#3b82f6'}}></div> 正常車流</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px'}}><div style={{ width: 12, height: 4, borderRadius: '2px', background: '#ef4444'}}></div> 事故封閉</div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px'}}><div style={{ width: 12, height: 4, borderRadius: '2px', background: '#10b981'}}></div> 推薦替代路線</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div style={{ width: 12, height: 4, background: '#3b82f6', borderRadius: 2 }}></div> {t('map_legend_normal')}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div style={{ width: 12, height: 4, background: '#f59e0b', borderRadius: 2 }}></div> {t('map_legend_congested')}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div style={{ width: 12, height: 4, background: '#ef4444', borderRadius: 2, border: '1px dashed #fff' }}></div> {t('map_legend_incident')}
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <div style={{ width: 12, height: 4, background: '#10b981', borderRadius: 2, border: '1px dashed #fff' }}></div> {t('map_legend_alternative')}
+        </div>
       </div>
     </div>
   );

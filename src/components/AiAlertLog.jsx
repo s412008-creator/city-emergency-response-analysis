@@ -2,15 +2,16 @@ import React from 'react';
 import { Activity, Clock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const AI_LOGS = [
-  { id: 1, time: 'Just now', type: 'info', msg: '系統自動校準模型預測權重，已納入最新天氣因子 (降雨機率 40%)' },
-  { id: 2, time: '2 mins ago', type: 'warning', msg: '預測 22:30 大巨蛋周邊散場人潮將達 1.5 萬人次峰值' },
-  { id: 3, time: '15 mins ago', type: 'action', msg: '已預先開啟信義區連鎖號誌計畫，延長忠孝東路綠燈秒數 15s' },
-  { id: 4, time: '1 hour ago', type: 'info', msg: '完成早班與午班車流數據匯總，整體車網健康度: 良好' },
-];
-
 export default function AiAlertLog() {
   const { t } = useLanguage();
+
+  const AI_LOGS = [
+    { id: 1, time: 'Just now', type: 'info', msg: t('ai_log_1') },
+    { id: 2, time: '2 mins ago', type: 'warning', msg: t('ai_log_2') },
+    { id: 3, time: '15 mins ago', type: 'action', msg: t('ai_log_3') },
+    { id: 4, time: '1 hour ago', type: 'info', msg: t('ai_log_4') },
+  ];
+
   return (
     <div className="glass-panel" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div className="panel-header" style={{ padding: '1.25rem' }}>
@@ -35,7 +36,7 @@ export default function AiAlertLog() {
               <div style={{ flex: 1 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>
-                    {log.type === 'warning' ? 'Anomaly Prediction' : log.type === 'action' ? 'Automated Action' : 'System Event'}
+                    {log.type === 'warning' ? t('log_type_warning') : log.type === 'action' ? t('log_type_action') : t('log_type_info')}
                   </span>
                   <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>{log.time}</span>
                 </div>

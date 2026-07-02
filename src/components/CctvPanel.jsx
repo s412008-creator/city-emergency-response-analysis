@@ -2,15 +2,16 @@ import React from 'react';
 import { Camera, Radio } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const CCTV_FEEDS = [
-  { id: 1, location: '光復南路 / 忠孝東路口', status: 'LIVE', active: true },
-  { id: 2, location: '大巨蛋 - 北側散場出口', status: 'LIVE', active: true },
-  { id: 3, location: '信義區 - 基隆路地下道', status: 'LIVE', active: true },
-  { id: 4, location: '市民大道 / 延吉街口', status: 'REC', active: false },
-];
-
 export default function CctvPanel() {
   const { t } = useLanguage();
+
+  const CCTV_FEEDS = [
+    { id: 1, location: t('cctv_loc_1'), status: 'LIVE', active: true },
+    { id: 2, location: t('cctv_loc_2'), status: 'LIVE', active: true },
+    { id: 3, location: t('cctv_loc_3'), status: 'LIVE', active: true },
+    { id: 4, location: t('cctv_loc_4'), status: 'REC', active: false },
+  ];
+
   return (
     <div className="glass-panel" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       <div className="panel-header" style={{ padding: '1.25rem' }}>
@@ -18,7 +19,7 @@ export default function CctvPanel() {
           <Camera size={18} color="var(--accent-primary)" />
           {t('dashboard_cctv')}
         </h2>
-        <div className="status-badge"><span className="status-dot"></span>網狀監控網</div>
+        <div className="status-badge"><span className="status-dot"></span>{t('badge_mesh_network')}</div>
       </div>
       
       <div className="panel-content" style={{ padding: '0 1.25rem 1.25rem 1.25rem', flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>

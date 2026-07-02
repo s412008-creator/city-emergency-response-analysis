@@ -54,10 +54,10 @@ function App() {
             <div className="col-span-3 glass-panel stat-card animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <div className="stat-icon"><Car size={24} /></div>
               <div className="stat-info">
-                <h3>信義區總車流</h3>
+                <h3>{t('stat_traffic_title')}</h3>
                 <div className="value">
                   {cityData.isLoading ? '...' : cityData.totalTraffic.toLocaleString()} 
-                  <span style={{fontSize:'1rem', color:'var(--text-secondary)', marginLeft: '8px'}}>Vehicles</span>
+                  <span style={{fontSize:'1rem', color:'var(--text-secondary)', marginLeft: '8px'}}>{t('stat_unit_vehicles')}</span>
                 </div>
               </div>
             </div>
@@ -65,11 +65,11 @@ function App() {
             <div className="col-span-3 glass-panel stat-card animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <div className="stat-icon"><Users size={24} /></div>
               <div className="stat-info">
-                <h3>大巨蛋周邊人潮</h3>
+                <h3>{t('stat_crowd_title')}</h3>
                 <div className="value">
                   {cityData.isLoading ? '...' : cityData.domeCrowd.toLocaleString()} 
                   <span style={{fontSize:'0.8rem', color:'var(--text-secondary)', marginLeft: '8px', fontWeight: 'normal'}}>
-                    漫遊比 {cityData.isLoading ? '-' : cityData.roamingPct}
+                    {t('stat_roaming')} {cityData.isLoading ? '-' : cityData.roamingPct}
                   </span>
                 </div>
               </div>
@@ -78,8 +78,8 @@ function App() {
             <div className="col-span-3 glass-panel stat-card animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <div className="stat-icon"><ShieldCheck size={24} /></div>
               <div className="stat-info">
-                <h3>AI 判定級別</h3>
-                <div className="value">SOP 監控中</div>
+                <h3>{t('stat_ai_level_title')}</h3>
+                <div className="value">{t('stat_sop_monitoring')}</div>
               </div>
             </div>
 
@@ -88,9 +88,9 @@ function App() {
                 <AlertTriangle size={24} />
               </div>
               <div className="stat-info">
-                <h3>突發事件警報</h3>
+                <h3>{t('stat_alert_title')}</h3>
                 <div className="value" style={{ color: isNormal ? 'var(--text-secondary)' : 'var(--alert-red)' }}>
-                  {isNormal ? '無異常' : '偵測到異常'}
+                  {isNormal ? t('stat_alert_normal') : t('stat_alert_detected')}
                 </div>
               </div>
             </div>
@@ -125,7 +125,7 @@ function App() {
           <>
             <div className="col-span-4 glass-panel animate-fade-in">
               <div className="panel-header">
-                <h2 className="panel-title">AI 推理與決策分析</h2>
+                <h2 className="panel-title">{t('panel_ai_decision')}</h2>
               </div>
               <div className="panel-content" style={{ height: '500px', overflowY: 'auto' }}>
                 <DecisionPanel systemStatus={systemStatus} />
@@ -133,7 +133,7 @@ function App() {
             </div>
             <div className="col-span-8 glass-panel animate-fade-in" style={{ animationDelay: '0.1s' }}>
               <div className="panel-header">
-                <h2 className="panel-title">智慧路網與疏散路徑</h2>
+                <h2 className="panel-title">{t('panel_network_map')}</h2>
               </div>
               <div className="panel-content" style={{ height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 <NetworkMap systemStatus={systemStatus} />
