@@ -9,8 +9,8 @@ export default function IncidentManager({ systemStatus, setSystemStatus, onShowN
 
   const injectEvent = (index) => {
     const incident = incidentData[index];
-    
-    const affectedRoadInfo = roadData.find(r => r.segment_id === incident.affected_segment);
+    const affectedRoadId = incident.affected_segment || incident.affected_road;
+    const affectedRoadInfo = roadData.find(r => r.segment_id === affectedRoadId);
     let smartAlternatives = [];
     if (affectedRoadInfo && affectedRoadInfo.alternatives) {
       smartAlternatives = affectedRoadInfo.alternatives.filter(altId => {

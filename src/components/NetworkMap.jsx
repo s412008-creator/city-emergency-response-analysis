@@ -25,7 +25,7 @@ const ROAD_COORDINATES = {
 export default function NetworkMap({ systemStatus }) {
   const [hoveredRoad, setHoveredRoad] = useState(null);
   const isAlert = systemStatus.status === 'alert';
-  const incidentRoad = systemStatus.incident?.affected_segment;
+  const incidentRoad = systemStatus.incident?.affected_segment || systemStatus.incident?.affected_road;
   // 直接接收 IncidentManager 傳來的字串陣列 (segment_id)
   const alternativeRoads = systemStatus.alternatives || [];
 
