@@ -228,6 +228,7 @@ function App() {
 
   return (
     <Layout 
+      systemStatus={systemStatus}
       activeTab={activeTab}
       setActiveTab={setActiveTab}
       headerActions={
