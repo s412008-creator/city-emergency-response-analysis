@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Clock, Activity, Target, Zap, HeartPulse } from 'lucide-react';
+import { BookOpen, Clock, Activity, Target, Zap, HeartPulse, Plane } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function DecisionPanel({ systemStatus }) {
@@ -106,6 +106,18 @@ export default function DecisionPanel({ systemStatus }) {
           <strong style={{color: '#ec4899'}}>醫療量能動態平衡啟動：</strong><br/>
           <span style={{color: 'var(--text-secondary)'}}>連線區域生醫庫分析急診滿載率。因 A 院急診瀕臨滿載，</span><br/>
           <span style={{color: 'var(--text-primary)'}}>AI 已將後續救護車自動導向 B 院，並同步預傳傷患檢傷分類。</span>
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <Plane size={14} color="#f59e0b" />
+          無人機自動派遣與數字孿生 (Autonomous Drone & Digital Twin)
+        </h4>
+        <div style={{ background: 'rgba(245, 158, 11, 0.05)', border: '1px solid rgba(245, 158, 11, 0.3)', padding: '0.75rem 1rem', borderRadius: '4px', fontSize: '0.85rem', borderLeft: '3px solid #f59e0b' }}>
+          <strong style={{color: '#f59e0b'}}>數字孿生 3D 建模啟動：</strong><br/>
+          <span style={{color: 'var(--text-secondary)'}}>已自動派遣 3 架探勘無人機前往現場，結合 IoT 感測器，</span><br/>
+          <span style={{color: 'var(--text-primary)'}}>正將災區破壞程度即時同步至本系統之數字孿生模型。</span>
         </div>
       </div>
 
