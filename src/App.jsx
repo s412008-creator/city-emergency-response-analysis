@@ -179,7 +179,7 @@ function App() {
                 <h2 className="panel-title">{t('panel_network_map')}</h2>
               </div>
               <div className="panel-content" style={{ height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                <Suspense fallback={<div className="text-white opacity-50">載入地圖模組中...</div>}>
+                <Suspense fallback={<div className="text-white opacity-50">Loading map module...</div>}>
                   <NetworkMap systemStatus={systemStatus} onRoadClick={triggerInteractiveIncident} />
                 </Suspense>
               </div>
@@ -216,8 +216,8 @@ function App() {
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1.5rem', border: '1px solid var(--panel-border)', borderRadius: '4px', background: 'var(--bg-color)' }}>
                 <div>
-                  <div style={{ fontWeight: 500, marginBottom: '0.25rem', color: 'var(--text-primary)' }}>介面主題模式 (Theme Mode)</div>
-                  <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>切換白天與黑夜模式以適應當前環境</div>
+                  <div style={{ fontWeight: 500, marginBottom: '0.25rem', color: 'var(--text-primary)' }}>Theme Mode</div>
+                  <div style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Switch between light and dark mode to adapt to the environment</div>
                 </div>
                 <div>
                   <button 
@@ -232,7 +232,7 @@ function App() {
                       fontWeight: 600
                     }}
                   >
-                    {theme === 'dark' ? '切換為白天模式 ☀️' : '切換為黑夜模式 🌙'}
+                    {theme === 'dark' ? 'Switch to Light Mode ☀️' : 'Switch to Dark Mode 🌙'}
                   </button>
                 </div>
               </div>
@@ -261,7 +261,7 @@ function App() {
       <div className="dashboard-grid">
         <Suspense fallback={
           <div className="col-span-12" style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
-            <div style={{ marginBottom: '1rem', opacity: 0.5 }}>模組載入中 (Loading Module...)</div>
+            <div style={{ marginBottom: '1rem', opacity: 0.5 }}>Loading Module...</div>
           </div>
         }>
           {renderContent()}
@@ -292,7 +292,7 @@ function App() {
             </button>
           </div>
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>載入中...</div>}>
+            <Suspense fallback={<div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>Loading...</div>}>
               <ChatAssistant systemStatus={systemStatus} />
             </Suspense>
           </div>
