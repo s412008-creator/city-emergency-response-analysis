@@ -153,13 +153,13 @@ export default function ChatAssistant({ systemStatus }) {
             <div style={{
               width: 28, height: 28, borderRadius: '50%', flexShrink: 0,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: msg.role === 'user' ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.1)',
+              background: msg.role === 'user' ? 'var(--accent-primary)' : 'var(--chat-icon-bg)',
               color: 'white'
             }}>
               {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
             </div>
             <div style={{
-              background: msg.role === 'user' ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.05)',
+              background: msg.role === 'user' ? 'var(--accent-primary)' : 'var(--chat-bubble-model)',
               padding: '0.75rem 1rem',
               borderRadius: '12px',
               borderTopRightRadius: msg.role === 'user' ? '4px' : '12px',
@@ -189,7 +189,7 @@ export default function ChatAssistant({ systemStatus }) {
         )}
       </div>
 
-      <div style={{ padding: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.05)', background: 'rgba(0, 0, 0, 0.2)' }}>
+      <div style={{ padding: '1rem', borderTop: '1px solid var(--panel-border)', background: 'var(--chat-input-bg)' }}>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <input
             type="text"

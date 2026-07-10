@@ -284,7 +284,7 @@ function App() {
       {isChatOpen && (
         <div className="chat-widget">
           <div className="panel-header">
-            <h2 className="panel-title" style={{ fontSize: '1rem', background: 'linear-gradient(135deg, #38bdf8, #fff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <h2 className="panel-title" style={{ fontSize: '1rem', background: 'linear-gradient(135deg, #38bdf8, var(--chat-header-text-end))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               <MessageCircle size={18} color="#38bdf8" /> {t('chat_title')}
             </h2>
             <button onClick={() => setIsChatOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}>
