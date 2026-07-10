@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Clock, Activity, Target, Zap } from 'lucide-react';
+import { BookOpen, Clock, Activity, Target, Zap, HeartPulse } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export default function DecisionPanel({ systemStatus }) {
@@ -94,6 +94,18 @@ export default function DecisionPanel({ systemStatus }) {
           <strong style={{color: '#10b981'}}>啟動微電網保護協議：</strong><br/>
           <span style={{color: 'var(--text-secondary)'}}>自動切斷事故封鎖區非必要設施供電，減少能源浪費。</span><br/>
           <span style={{color: 'var(--text-primary)'}}>已將備用電力優先導向鄰近醫療院所與避難中心。</span>
+        </div>
+      </div>
+
+      <div>
+        <h4 style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          <HeartPulse size={14} color="#ec4899" />
+          生醫資料平台連線 (Biomedical Data Platform)
+        </h4>
+        <div style={{ background: 'rgba(236, 72, 153, 0.05)', border: '1px solid rgba(236, 72, 153, 0.3)', padding: '0.75rem 1rem', borderRadius: '4px', fontSize: '0.85rem', borderLeft: '3px solid #ec4899' }}>
+          <strong style={{color: '#ec4899'}}>醫療量能動態平衡啟動：</strong><br/>
+          <span style={{color: 'var(--text-secondary)'}}>連線區域生醫庫分析急診滿載率。因 A 院急診瀕臨滿載，</span><br/>
+          <span style={{color: 'var(--text-primary)'}}>AI 已將後續救護車自動導向 B 院，並同步預傳傷患檢傷分類。</span>
         </div>
       </div>
 
