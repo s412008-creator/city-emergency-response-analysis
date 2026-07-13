@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
-  base: '/city-ai-agent/',
+  base: '/city-emergency-response-analysis/',
   plugins: [
     react(),
     VitePWA({
