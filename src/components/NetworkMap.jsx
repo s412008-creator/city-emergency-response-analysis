@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import roadNetworkData from '../data/road_network_geometry.json';
-import { MapContainer, TileLayer, Polyline, Tooltip, Marker, CircleMarker } from 'react-leaflet';
-import { divIcon } from 'leaflet';
+import { MapContainer, TileLayer, Polyline, Tooltip, CircleMarker } from 'react-leaflet';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -50,26 +49,31 @@ export default function NetworkMap({ systemStatus }) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
 
-        {/* Heatmap Hotspots */}
+        {/* Heatmap Hotspots using pure SVG CircleMarker */}
         {isAlert && (
           <>
-            <Marker 
-              position={[25.0415, 121.5560]} // Dome area approximate
-              icon={divIcon({
-                className: 'custom-heatmap-icon',
-                html: '<div class="heatmap-dot"></div>',
-                iconSize: [40, 40],
-                iconAnchor: [20, 20]
-              })}
+            {/* Dome Area */}
+            <CircleMarker 
+              center={[25.0415, 121.5560]} 
+              radius={10} 
+              pathOptions={{ color: 'transparent', fillColor: '#ef4444', fillOpacity: 0.8 }} 
             />
-            <Marker 
-              position={[25.0390, 121.5645]} // MRT area
-              icon={divIcon({
-                className: 'custom-heatmap-icon',
-                html: '<div class="heatmap-dot heatmap-dot-yellow"></div>',
-                iconSize: [60, 60],
-                iconAnchor: [30, 30]
-              })}
+            <CircleMarker 
+              center={[25.0415, 121.5560]} 
+              radius={10} 
+              pathOptions={{ color: 'transparent', fillColor: '#ef4444', fillOpacity: 0.5, className: 'heatmap-svg-pulse' }} 
+            />
+            
+            {/* MRT Area */}
+            <CircleMarker 
+              center={[25.0390, 121.5645]} 
+              radius={15} 
+              pathOptions={{ color: 'transparent', fillColor: '#f59e0b', fillOpacity: 0.8 }} 
+            />
+            <CircleMarker 
+              center={[25.0390, 121.5645]} 
+              radius={15} 
+              pathOptions={{ color: 'transparent', fillColor: '#f59e0b', fillOpacity: 0.5, className: 'heatmap-svg-pulse' }} 
             />
           </>
         )}
