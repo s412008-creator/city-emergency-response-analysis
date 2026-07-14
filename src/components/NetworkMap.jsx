@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import roadNetworkData from '../data/road_network_geometry.json';
-import { MapContainer, TileLayer, Polyline, Tooltip, CircleMarker } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, Tooltip, Marker } from 'react-leaflet';
+import L from 'leaflet';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -41,7 +42,6 @@ export default function NetworkMap({ systemStatus }) {
         center={mapCenter} 
         zoom={15} 
         style={{ width: '100%', height: '100%' }}
-        zoomControl={false}
       >
         {/* 使用 CartoDB 深色/淺色極簡圖磚 */}
         <TileLayer
@@ -49,6 +49,30 @@ export default function NetworkMap({ systemStatus }) {
           url={`https://{s}.basemaps.cartocdn.com/${theme === 'dark' ? 'dark_all' : 'light_all'}/{z}/{x}/{y}{r}.png`}
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
+
+        {/* Heatmap Hotspots */}
+        {isAlert && (
+          <>
+            <Marker 
+              position={[25.0415, 121.5560]} // Dome area approximate
+              icon={L.divIcon({
+                className: 'custom-heatmap-icon',
+                html: '<div class="heatmap-dot"></div>',
+                iconSize: [40, 40],
+                iconAnchor: [20, 20]
+              })}
+            />
+            <Marker 
+              position={[25.0390, 121.5645]} // MRT area
+              icon={L.divIcon({
+                className: 'custom-heatmap-icon',
+                html: '<div class="heatmap-dot heatmap-dot-yellow"></div>',
+                iconSize: [60, 60],
+                iconAnchor: [30, 30]
+              })}
+            />
+          </>
+        )}
 
         {roadNetworkData.map((road) => {
           const coords = ROAD_COORDINATES[road.segment_id];
@@ -63,16 +87,29 @@ export default function NetworkMap({ systemStatus }) {
             if (road.segment_id === incidentRoad) {
               color = "#ef4444"; // 事故點：紅色
               weight = 6;
-              dashArray = "15, 15";
-              className = "flowing-path";
+              dashArray = "10, 15";
+              className = "flowing-path-slow";
             } else if (alternativeRoads.includes(road.segment_id)) {
               color = "#10b981"; // 替代道路：翡翠綠
               weight = 5;
-              dashArray = "10, 10";
+              dashArray = "15, 15";
               className = "flowing-path";
             } else {
               color = "#334155"; // 其他道路：暗藍灰 (Slate 700)
               weight = 3;
+            }
+          } else {
+            // 平時動態車流
+            dashArray = "20, 20";
+            className = "flowing-path";
+            color = theme === 'dark' ? '#38bdf8' : '#0284c7';
+            weight = 3;
+            // 隨機產生一些黃色/紅色路段模擬日常車多
+            if (road.segment_id === 'RD_TPE_001' || road.segment_id === 'RD_TPE_005') {
+              color = "#f59e0b"; // 黃色
+              weight = 4;
+              dashArray = "10, 15";
+              className = "flowing-path-slow";
             }
           }
 
