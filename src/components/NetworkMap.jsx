@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import roadNetworkData from '../data/road_network_geometry.json';
-import { MapContainer, TileLayer, Polyline, Tooltip, Marker } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, Tooltip, Marker, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
