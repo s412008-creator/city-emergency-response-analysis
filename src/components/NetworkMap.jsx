@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import roadNetworkData from '../data/road_network_geometry.json';
 import { MapContainer, TileLayer, Polyline, Tooltip, Marker, CircleMarker } from 'react-leaflet';
-import L from 'leaflet';
+import { divIcon } from 'leaflet';
 import { useLanguage } from '../contexts/LanguageContext';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -55,7 +55,7 @@ export default function NetworkMap({ systemStatus }) {
           <>
             <Marker 
               position={[25.0415, 121.5560]} // Dome area approximate
-              icon={L.divIcon({
+              icon={divIcon({
                 className: 'custom-heatmap-icon',
                 html: '<div class="heatmap-dot"></div>',
                 iconSize: [40, 40],
@@ -64,7 +64,7 @@ export default function NetworkMap({ systemStatus }) {
             />
             <Marker 
               position={[25.0390, 121.5645]} // MRT area
-              icon={L.divIcon({
+              icon={divIcon({
                 className: 'custom-heatmap-icon',
                 html: '<div class="heatmap-dot heatmap-dot-yellow"></div>',
                 iconSize: [60, 60],
